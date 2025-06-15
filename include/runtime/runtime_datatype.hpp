@@ -5,6 +5,8 @@
 #ifndef _RUNTIME_DATATYPE_HPP_
 #define _RUNTIME_DATATYPE_HPP_
 
+namespace jinfer {
+
 /// 计算节点属性中的权重类型
 enum class RuntimeDataType {
 	kTypeUnknown = 0,
@@ -17,5 +19,19 @@ enum class RuntimeDataType {
 	kTypeInt8 = 7,
 	kTypeUInt8 = 8,
 };
+
+enum class RuntimeParameterType {
+	kParameterUnknown = 0,
+	kParameterBool = 1,
+	kParameterInt = 2,
+
+	kParameterFloat = 3,
+	kParameterString = 4,
+	kParameterIntArray = 5,
+	kParameterFloatArray = 6,
+	kParameterStringArray = 7,
+};
+
+}
 
 #endif //_RUNTIME_DATATYPE_HPP_

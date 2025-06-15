@@ -143,13 +143,13 @@ TEST(test_ir, pnnx_graph_all) {
   std::string bin_path("model_file/test_linear.pnnx.bin");
   std::string param_path("model_file/test_linear.pnnx.param");
   RuntimeGraph graph(param_path, bin_path);
-  const bool init_success = graph.Init();
+  const bool init_success = graph.init();
   ASSERT_EQ(init_success, true);
   const auto &operators = graph.operators();
   for (const auto &operator_ : operators) {
     LOG(INFO) << "op name: " << operator_->name << " type: " << operator_->type;
     LOG(INFO) << "attribute:";
-    for (const auto &[name, attribute_] : operator_->attribute) {
+    for (const auto &[name, attribute_] : operator_->attrs) {
       LOG(INFO) << name << " type: " << int(attribute_->type)
                 << " shape: " << ShapeStr(attribute_->shape);
       const auto &weight_data = attribute_->weight_data;
@@ -158,7 +158,7 @@ TEST(test_ir, pnnx_graph_all) {
     LOG(INFO) << "inputs: ";
     for (const auto &input : operator_->input_operands) {
       LOG(INFO) << "name: " << input.first
-                << " shape: " << ShapeStr(input.second->shapes);
+                << " shape: " << ShapeStr(input.second->shape);
     }
 
     LOG(INFO) << "outputs: ";
@@ -177,7 +177,7 @@ TEST(test_ir, pnnx_graph_all_homework) {
   std::string bin_path("model_file/test_linear.pnnx.bin");
   std::string param_path("model_file/test_linear.pnnx.param");
   RuntimeGraph graph(param_path, bin_path);
-  const bool init_success = graph.Init();
+  const bool init_success = graph.init();
   ASSERT_EQ(init_success, true);
   const auto &operators = graph.operators();
   for (const auto &operator_ : operators) {
@@ -186,24 +186,24 @@ TEST(test_ir, pnnx_graph_all_homework) {
       ASSERT_EQ(params.size(), 3);
         /////////////////////////////////
       ASSERT_EQ(params.count("bias"), 1);
-      RuntimeParameter *parameter_bool = params.at("bias");
+      auto parameter_bool = params.at("bias");
       ASSERT_NE(parameter_bool, nullptr);
-      ASSERT_EQ((dynamic_cast<RuntimeParameterBool *>(parameter_bool)->value),
+      ASSERT_EQ(std::dynamic_pointer_cast<RuntimeParameterBool>(parameter_bool)->value,
                 true);
       /////////////////////////////////
       ASSERT_EQ(params.count("in_features"), 1);
-      RuntimeParameter *parameter_in_features = params.at("in_features");
+      std::shared_ptr<RuntimeParameter> parameter_in_features = params.at("in_features");
       ASSERT_NE(parameter_in_features, nullptr);
       ASSERT_EQ(
-          (dynamic_cast<RuntimeParameterInt *>(parameter_in_features)->value),
+          (std::dynamic_pointer_cast<RuntimeParameterInt>(parameter_in_features)->value),
           32);
 
       /////////////////////////////////
       ASSERT_EQ(params.count("out_features"), 1);
-      RuntimeParameter *parameter_out_features = params.at("out_features");
+      std::shared_ptr<RuntimeParameter> parameter_out_features = params.at("out_features");
       ASSERT_NE(parameter_out_features, nullptr);
       ASSERT_EQ(
-          (dynamic_cast<RuntimeParameterInt *>(parameter_out_features)->value),
+          (std::dynamic_pointer_cast<RuntimeParameterInt>(parameter_out_features)->value),
           128);
     }
   }
