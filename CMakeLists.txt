@@ -14,11 +14,14 @@ if (!WIN32)
     set(link_lib "${link_lib} pthread")
 endif ()
 set(link_math_lib ${ARMADILLO_LIBRARIES} ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
+
 aux_source_directory(./test/data DIR_TEST_DATA)
+aux_source_directory(./test/runtime DIR_TEST_RUNTIME)
+
 aux_source_directory(./source/data DIR_SOURCE_DATA)
 aux_source_directory(./source/runtime DIR_SOURCE_RUNTIME)
 
-add_executable(jinfer main.cpp ${DIR_TEST_DATA} ${DIR_SOURCE_DATA} ${DIR_SOURCE_RUNTIME})
+add_executable(jinfer main.cpp ${DIR_TEST_DATA} ${DIR_TEST_RUNTIME} ${DIR_SOURCE_DATA} ${DIR_SOURCE_RUNTIME})
 target_link_libraries(jinfer ${link_lib} ${link_math_lib} OpenMP::OpenMP_CXX)
 
 target_include_directories(jinfer PUBLIC ${glog_INCLUDE_DIR})

@@ -5,7 +5,7 @@
 int main(int argc, char *argv[]) {
 	testing::InitGoogleTest(&argc, argv);
 	google::InitGoogleLogging("jinfer");
-	FLAGS_log_dir = "../../course2/log";
+	FLAGS_log_dir = "log";
 	FLAGS_alsologtostderr = true;
 
 	LOG(INFO) << "Start test...\n";
