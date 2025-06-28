@@ -7,14 +7,14 @@
 
 float MinusOne(float value)
 {
-	return value - 1.f;
+    return value - 1.f;
 }
 TEST(test_transform, transform1)
 {
-	using namespace jinfer;
-	Tensor<float> f1(2, 3, 4);
-	f1.rand();
-	f1.show();
-	f1.transform(MinusOne);
-	f1.show();
+    using namespace jinfer;
+    Tensor<float> f1(2, 3, 4);
+    f1.rand();
+    f1.show();
+    f1.transform(MinusOne);
+    f1.show();
 }

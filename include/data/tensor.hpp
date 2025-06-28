@@ -19,106 +19,108 @@ class Tensor
 template<>
 class Tensor<uint8_t>
 {
-	// 待实现
+    // 待实现
 };
 
 template<>
 class Tensor<float>
 {
 public:
-	explicit Tensor() = default;
+    explicit Tensor() = default;
 
-	explicit Tensor(uint32_t size);
+    explicit Tensor(uint32_t size);
 
-	explicit Tensor(uint32_t rows, uint32_t cols);
+    explicit Tensor(uint32_t rows, uint32_t cols);
 
-	explicit Tensor(uint32_t channels, uint32_t rows, uint32_t cols);
+    explicit Tensor(uint32_t channels, uint32_t rows, uint32_t cols);
 
-	explicit Tensor(const std::vector<uint32_t> &shapes);
+    explicit Tensor(const std::vector<uint32_t> &shapes);
 
-	Tensor(const Tensor &tensor);
+    Tensor(const Tensor &tensor);
 
-	Tensor(Tensor &&tensor) noexcept;
+    Tensor(Tensor &&tensor) noexcept;
 
-	Tensor<float> &operator=(Tensor &&tensor) noexcept;
+    Tensor<float> &
+    operator=(Tensor &&tensor) noexcept;
 
-	Tensor<float> &operator=(const Tensor &tensor);
+    Tensor<float> &
+    operator=(const Tensor &tensor);
 
-	uint32_t
-	rows() const;
+    uint32_t
+    rows() const;
 
-	uint32_t
-	cols() const;
+    uint32_t
+    cols() const;
 
-	uint32_t
-	channels() const;
+    uint32_t
+    channels() const;
 
-	uint32_t
-	size() const;
+    uint32_t
+    size() const;
 
-	const std::vector<uint32_t> &
-	raw_shapes() const;
+    const std::vector<uint32_t> &
+    raw_shapes() const;
 
-	void
-	set_data(const arma::fcube &data);
+    void
+    set_data(const arma::fcube &data);
 
-	void
-	fill(float value);
+    void
+    fill(float value);
 
-	void
-	fill(const std::vector<float> &values, bool row_major = true);
+    void
+    fill(const std::vector<float> &values, bool row_major = true);
 
-	void
-	show();
+    void
+    show();
 
-	const arma::fmat &
-	slice(uint32_t channel) const;
+    const arma::fmat &
+    slice(uint32_t channel) const;
 
-	float
-	at(uint32_t channel, uint32_t row, uint32_t col);
+    float
+    at(uint32_t channel, uint32_t row, uint32_t col);
 
-	void
-	rand();
+    void
+    rand();
 
-	void
-	ones();
+    void
+    ones();
 
-	void
-	reshape(const std::vector<uint32_t> &shapes, bool row_major = true);
+    void
+    reshape(const std::vector<uint32_t> &shapes, bool row_major = true);
 
-	std::vector<float>
-	values(bool row_major = false);
+    std::vector<float>
+    values(bool row_major = false);
 
-	void
-	transform(const std::function<float(float)> &filter);
+    void
+    transform(const std::function<float(float)> &filter);
 
-	bool
-	empty();
+    bool
+    empty();
 
-	const float *
-	raw_ptr() const;
+    const float *
+    raw_ptr() const;
 
-	void
-	flatten(bool row_major = true);
+    void
+    flatten(bool row_major = true);
 
-	/**
-	 * @param pads index represents: 0->up, 1->bottom, 2->left, 3->right
-	 * @param padding_value
-	 */
-	void
-	padding(const std::vector<uint32_t> &pads, float padding_value = 0);
+    /**
+     * @param pads index represents: 0->up, 1->bottom, 2->left, 3->right
+     * @param padding_value
+     */
+    void
+    padding(const std::vector<uint32_t> &pads, float padding_value = 0);
 
 private:
-	std::vector<uint32_t> raw_shape_;
-	arma::fcube data_;
+    std::vector<uint32_t> raw_shape_;
+    arma::fcube data_;
 
-	void
-	assign_each_shape(std::vector<uint32_t> shapes, uint32_t &rows, uint32_t &cols, uint32_t &channels);
+    void
+    assign_each_shape(std::vector<uint32_t> shapes, uint32_t &rows, uint32_t &cols, uint32_t &channels);
 };
 
 using ftensor = Tensor<float>;
 using sftensor = std::shared_ptr<Tensor<float>>;
 
-}
+}// namespace jinfer
 
-#endif //JINFER_TENSOR_HPP
+#endif//JINFER_TENSOR_HPP
